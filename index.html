@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Theme HTML Tester</title>
+    <style>
+        /* Base Dark Theme Variables */
+        :root {
+            --bg-main: #121212;
+            --bg-header: #1f1f1f;
+            --bg-editor: #1e1e1e;
+            --bg-pane-title: #252526;
+            --text-main: #ffffff;
+            --text-editor: #d4d4d4;
+            --text-accent: #9cdcfe;
+            --border-color: #333333;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        header {
+            background-color: var(--bg-header);
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .editor-pane, .preview-pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-pane {
+            border-right: 2px solid var(--border-color);
+        }
+
+        .pane-title {
+            background-color: var(--bg-pane-title);
+            padding: 8px 15px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-accent);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        textarea {
+            flex: 1;
+            background-color: var(--bg-editor);
+            color: var(--text-editor);
+            border: none;
+            padding: 15px;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-size: 15px;
+            line-height: 1.5;
+            resize: none;
+            outline: none;
+        }
+
+        /* Custom scrollbar for the text area */
+        textarea::-webkit-scrollbar {
+            width: 12px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background: var(--bg-editor);
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background-color: #424242;
+            border: 3px solid var(--bg-editor);
+            border-radius: 6px;
+        }
+
+        iframe {
+            flex: 1;
+            border: none;
+            /* Kept white so your HTML renders as it would on a standard blank page */
+            background-color: #ffffff; 
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h2>HTML Live Tester</h2>
+    </header>
+
+    <div class="container">
+        <div class="editor-pane">
+            <div class="pane-title">HTML / CSS / JS Editor</div>
+            <textarea id="editor" spellcheck="false" placeholder="">
+<div class="welcome">
+    <h1>Hello, World!</h1>
+    <p>Start typing to see live updates.</p>
+</div>
+
+<style>
+    body {
+        font-family: sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f4f8;
+    }
+    .welcome {
+        text-align: center;
+        padding: 40px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    h1 { color: #007acc; margin-top: 0; }
+    p { color: #555; }
+</style>
+
+<script>
+    console.log("Live preview is active!");
+</script>
+            </textarea>
+        </div>
+
+        <div class="preview-pane">
+            <div class="pane-title">Live Preview</div>
+            <iframe id="preview"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const editor = document.getElementById('editor');
+        const preview = document.getElementById('preview');
+
+        function updatePreview() {
+            // Get the iframe document
+            const previewDoc = preview.contentDocument || preview.contentWindow.document;
+            
+            // Write the current editor value into the iframe
+            previewDoc.open();
+            previewDoc.write(editor.value);
+            previewDoc.close();
+        }
+
+        // Listen for typing events in the textarea
+        editor.addEventListener('input', updatePreview);
+
+        // Run once on load to render the default code
+        updatePreview();
+    </script>
+</body>
+</html>
